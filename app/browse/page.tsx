@@ -24,6 +24,8 @@ function ShowCard(showData: ShowData) {
   );
 }
 
+export const revalidate = 300;
+
 export default async function Page() {
   const shows = (await listAllShows()) as ShowData[];
   return (

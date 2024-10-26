@@ -5,6 +5,8 @@ import Link from "next/link";
 
 type Params = Promise<{ showid: string }>;
 
+export const revalidate = 3600;
+
 export default async function AnimePage(props: { params: Params }) {
   const params = await props.params;
   const show = await getShowById(params.showid);

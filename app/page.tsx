@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 export default function Home() {
+  "use client";
   return (
     <div className="text-center">
       <h1 className="text-5xl mb-2">Welcome to <b>Ruumi</b></h1>
