@@ -1,12 +1,12 @@
 import { getShowById, listShowEpisodes } from "@/app/lib/shows";
 import EpisodeCard from "./episodeCard";
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/16/solid";
+import { ArrowLeftIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/16/solid";
+import Link from "next/link";
 
-export default async function AnimePage({
-  params,
-}: {
-  params: { showid: string };
-}) {
+type Params = Promise<{ showid: string }>;
+
+export default async function AnimePage(props: { params: Params }) {
+  const params = await props.params;
   const show = await getShowById(params.showid);
   const episodes = await listShowEpisodes(params.showid);
   return (
@@ -15,6 +15,7 @@ export default async function AnimePage({
         className="absolute top-0 opacity-10 left-0 bg-cover bg-top w-full h-svh z-0 blur-md"
         style={{ backgroundImage: `url('${show.poster_url}')` }}
       ></div>
+      <Link className="relative p-1 hover:underline z-10" href="/browse"><ArrowLeftIcon className="inline h-4 w-4" /> Back</Link>
       <div className="relative flex flex-col md:flex-row z-10 p-8 rounded-lg">
         <img
           src={show.poster_url || "none.jpg"}
@@ -32,17 +33,17 @@ export default async function AnimePage({
                 <i>{t}</i>
               </h2>
             ))}
-          {show.description && <p>{show.description}</p>}
           <a
             href={`https://anilist.co/anime/${show.anilist_id}`}
             target="_blank"
-            className="text-teal-500 hover:underline"
+            className="text-teal-500 mt-2 hover:underline"
           >
             AniList <ArrowTopRightOnSquareIcon className="inline h-4 w-4" />
           </a>
         </div>
       </div>
-      <div className="relative z-10">
+      {show.description && <p className="text-gray-300 whitespace-pre-line">{show.description}</p>}
+      <div className="relative z-10 mt-3">
         <h2 className="text-lg">Episodes</h2>
         <p className="text-gray-400">
           Select an episode below to open a room and start watching

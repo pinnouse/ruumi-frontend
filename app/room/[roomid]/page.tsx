@@ -1,19 +1,19 @@
+"use server";
+
 import { validateRoom } from "@/app/lib/room/validateRoom";
 import "@vidstack/react/player/styles/default/theme.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
-import { MediaPlayer, MediaProvider } from "@vidstack/react";
-import {
-  defaultLayoutIcons,
-  DefaultVideoLayout,
-} from "@vidstack/react/player/layouts/default";
 import DeleteRoomButton from "./deleteRoomButton";
+import Player from "@/app/room/[roomid]/player"
+import { getUser } from "@/app/lib/auth";
 
-export default async function RoomPage({
-  params,
-}: {
-  params: { roomid: string };
-}) {
+type Params = Promise<{roomid: string}>;
+
+export default async function RoomPage(props: { params: Params }) {
+  const params = await props.params;
+  const user = await getUser();
   const roomData = await validateRoom(params.roomid);
+  const authed = roomData.created_by == user.id;
   const meta = roomData.meta!;
   const episodeNumber = meta.episode_number.toString().padStart(2, "0");
   return (
@@ -23,14 +23,8 @@ export default async function RoomPage({
       </h1>
       <h2>Episode {episodeNumber}</h2>
       <br />
-      <MediaPlayer
-        title={`${meta.anime!.title} - ${episodeNumber}`}
-        src={roomData.video_url}
-      >
-        <MediaProvider />
-        <DefaultVideoLayout icons={defaultLayoutIcons} />
-      </MediaPlayer>
-      <DeleteRoomButton />
+      <Player roomData={roomData} meta={meta} userID={user.id} />
+      { authed && <DeleteRoomButton /> }
     </div>
   );
 }

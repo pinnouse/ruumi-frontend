@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 export async function listAllShows() {
   // TODO: Paginate this function
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("anime")
     .select("id,title,poster_url");
@@ -17,7 +17,7 @@ export async function listAllShows() {
 
 export async function getShowById(id: string) {
   // TODO: Validate id is UUID
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("anime")
     .select("*")
@@ -32,7 +32,7 @@ export async function getShowById(id: string) {
 
 export async function listShowEpisodes(id: string) {
   // TODO: Validate id is UUID
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("anime_episodes")
     .select("*")

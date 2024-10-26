@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { deleteRoom } from "@/app/lib/room/deleteRoom";
+import { deleteRoom } from "@/app/room/[roomid]/deleteRoom";
 import { XMarkIcon } from "@heroicons/react/16/solid";
 
 export default function DeleteRoomButton() {
