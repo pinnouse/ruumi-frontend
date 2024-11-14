@@ -109,7 +109,9 @@ export default function Player({ roomData, meta, userID }: { roomData: Tables<"r
         onPause={pauseHandler}
         >
             <MediaProvider />
-            <DefaultVideoLayout icons={defaultLayoutIcons} />
+            <DefaultVideoLayout icons={defaultLayoutIcons} slots={{
+                settingsMenu: null,
+            }} />
         </MediaPlayer>
     </div>
 }
