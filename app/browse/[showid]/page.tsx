@@ -1,6 +1,9 @@
 import { getShowById, listShowEpisodes } from "@/app/lib/shows";
-import EpisodeCard from "./episodeCard";
-import { ArrowLeftIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/16/solid";
+import EpisodeList from "./episodeList";
+import {
+  ArrowLeftIcon,
+  ArrowTopRightOnSquareIcon,
+} from "@heroicons/react/16/solid";
 import Link from "next/link";
 
 type Params = Promise<{ showid: string }>;
@@ -14,11 +17,13 @@ export default async function AnimePage(props: { params: Params }) {
   return (
     <div className="relative h-svh">
       <div
-        className="absolute top-0 opacity-10 left-0 bg-cover bg-top w-full h-svh z-0 blur-md"
+        className="absolute top-0 opacity-10 left-0 bg-cover bg-top w-full h-96 z-0 blur-md"
         style={{ backgroundImage: `url('${show.poster_url}')` }}
       ></div>
-      <Link className="relative p-1 hover:underline z-10" href="/browse"><ArrowLeftIcon className="inline h-4 w-4" /> Back</Link>
-      <div className="relative flex flex-col md:flex-row z-10 p-8 rounded-lg">
+      <Link className="relative p-1 hover:underline z-10" href="/browse">
+        <ArrowLeftIcon className="inline h-4 w-4" /> Back
+      </Link>
+      <div className="relative flex flex-col md:flex-row z-10 p-8">
         <img
           src={show.poster_url || "none.jpg"}
           alt={show.title}
@@ -44,16 +49,18 @@ export default async function AnimePage(props: { params: Params }) {
           </a>
         </div>
       </div>
-      {show.description && <p className="text-gray-300 whitespace-pre-line">{show.description}</p>}
-      <div className="relative z-10 mt-3">
-        <h2 className="text-lg">Episodes</h2>
-        <p className="text-gray-400">
-          Select an episode below to open a room and start watching
-        </p>
-        <div className="flex flex-wrap">
-          {episodes.map((episode) => (
-            <EpisodeCard key={episode.id} episode_data={episode} />
-          ))}
+      <div className="bg-teal-50/15 rounded-lg shadow-lg p-8 relative z-10">
+        {show.description && (
+          <p className="text-gray-300 whitespace-pre-line">
+            {show.description}
+          </p>
+        )}
+        <div className="relative z-10 mt-3">
+          <h2 className="text-lg">Episodes</h2>
+          <p className="text-gray-400">
+            Select an episode below to open a room and start watching
+          </p>
+          <EpisodeList episodes={episodes} />
         </div>
       </div>
     </div>
